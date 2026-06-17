@@ -1,0 +1,14 @@
+D:\Pharmacy\Pharmacy\Pharmacy.Data\bin\Debug\net10.0\Pharmacy.Data.deps.json
+D:\Pharmacy\Pharmacy\Pharmacy.Data\bin\Debug\net10.0\Pharmacy.Data.runtimeconfig.json
+D:\Pharmacy\Pharmacy\Pharmacy.Data\bin\Debug\net10.0\Pharmacy.Data.dll
+D:\Pharmacy\Pharmacy\Pharmacy.Data\bin\Debug\net10.0\Pharmacy.Data.pdb
+D:\Pharmacy\Pharmacy\Pharmacy.Data\obj\Debug\net10.0\Pharmacy.Data.csproj.AssemblyReference.cache
+D:\Pharmacy\Pharmacy\Pharmacy.Data\obj\Debug\net10.0\Pharmacy.Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\Pharmacy\Pharmacy\Pharmacy.Data\obj\Debug\net10.0\Pharmacy.Data.AssemblyInfoInputs.cache
+D:\Pharmacy\Pharmacy\Pharmacy.Data\obj\Debug\net10.0\Pharmacy.Data.AssemblyInfo.cs
+D:\Pharmacy\Pharmacy\Pharmacy.Data\obj\Debug\net10.0\Pharmacy.Data.csproj.CoreCompileInputs.cache
+D:\Pharmacy\Pharmacy\Pharmacy.Data\obj\Debug\net10.0\Pharmacy.Data.dll
+D:\Pharmacy\Pharmacy\Pharmacy.Data\obj\Debug\net10.0\refint\Pharmacy.Data.dll
+D:\Pharmacy\Pharmacy\Pharmacy.Data\obj\Debug\net10.0\Pharmacy.Data.pdb
+D:\Pharmacy\Pharmacy\Pharmacy.Data\obj\Debug\net10.0\Pharmacy.Data.genruntimeconfig.cache
+D:\Pharmacy\Pharmacy\Pharmacy.Data\obj\Debug\net10.0\ref\Pharmacy.Data.dll
