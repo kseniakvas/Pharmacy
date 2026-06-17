@@ -12,3 +12,4 @@ D:\Pharmacy\Pharmacy\Pharmacy.Data\obj\Debug\net10.0\refint\Pharmacy.Data.dll
 D:\Pharmacy\Pharmacy\Pharmacy.Data\obj\Debug\net10.0\Pharmacy.Data.pdb
 D:\Pharmacy\Pharmacy\Pharmacy.Data\obj\Debug\net10.0\Pharmacy.Data.genruntimeconfig.cache
 D:\Pharmacy\Pharmacy\Pharmacy.Data\obj\Debug\net10.0\ref\Pharmacy.Data.dll
+D:\Pharmacy\Pharmacy\Pharmacy.Data\obj\Debug\net10.0\Pharmacy.Data.sourcelink.json
