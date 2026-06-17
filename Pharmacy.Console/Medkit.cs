@@ -65,19 +65,19 @@ public sealed class Medkit
                     SearchMedicine();
                     break;
                 case "4":
-                    // UseMedicine(); 
+                    UseMedicine(); 
                     break;
                 case "5":
-                    // RestockMedicine(); // Твоя функція для поповнення
+                    // RestockMedicine(); 
                     break;
                 case "6":
-                    // RemoveMedicine(); // Твоя функція для видалення
+                    // RemoveMedicine(); 
                     break;
                 case "7":
-                    // GenerateReports(); // Твоя функція для звітів
+                    GenerateReports(); 
                     break;
                 case "0":
-                    return; // Вихід з циклу та програми
+                    return; 
                 default:
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("\nПомилка: Некоректний ввід. Будь ласка, введіть число від 1 до 8.");
@@ -172,12 +172,123 @@ public sealed class Medkit
         Console.ReadKey();
     }
 
+    private void UseMedicine()
+{
+    Console.Clear();
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine("\n¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯");
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine($"{"ВИКОРИСТАТИ ЛІКИ",41}");
+    Console.ForegroundColor = ConsoleColor.Cyan;
+    Console.WriteLine("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯");
+    Console.ResetColor();
+    
+    var medicines = _db.Medicines.Include(m => m.Category).ToList();
+
+    if (!medicines.Any())
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("Ваша аптечка порожня. Немає ліків для використання.");
+        Console.ResetColor();
+        Console.WriteLine("\nНатисніть Enter для повернення до меню...");
+        Console.ReadLine();
+        return;
+    }
+
+    Console.WriteLine("ДОСТУПНІ ЛІКИ:\n");
+    PrintMedicinesTable(medicines);
+
+    Medicine selectedMedicine = null;
+    
+    while (true)
+    {
+        Console.Write("Введіть ID ліків (або 0 для скасування): ");
+        var input = Console.ReadLine()?.Trim();
+
+        if (input == "0") return; 
+
+        if (int.TryParse(input, out int id))
+        {
+            selectedMedicine = medicines.FirstOrDefault(m => m.Id == id);
+            
+            if (selectedMedicine != null)
+            {
+                break; 
+            }
+            
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"Ліки з ID {id} не знайдено. Спробуйте ще раз.");
+            Console.ResetColor();
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Помилка: Введіть коректне числове ID.");
+            Console.ResetColor();
+        }
+    }
+
+    Console.WriteLine($"\nВи обрали: {selectedMedicine.Name}");
+    Console.WriteLine($"Поточний залишок: {selectedMedicine.Quantity} шт.");
+    
+    if (selectedMedicine.Quantity == 0)
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("На жаль, ці ліки вже закінчилися. Спочатку поповніть запас.");
+        Console.ResetColor();
+        Console.WriteLine("\nНатисніть Enter для повернення до меню...");
+        Console.ReadLine();
+        return;
+    }
+    
+    while (true)
+    {
+        Console.Write("\nСкільки одиниць ви хочете використати? ");
+        var amountInput = Console.ReadLine()?.Trim();
+
+        if (int.TryParse(amountInput, out int amountToUse))
+        {
+            if (amountToUse <= 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Помилка: Кількість має бути більшою за нуль.");
+                Console.ResetColor();
+            }
+            else if (amountToUse > selectedMedicine.Quantity)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Помилка: Ви не можете використати більше, ніж є в наявності ({selectedMedicine.Quantity} шт.).");
+                Console.ResetColor();
+            }
+            else
+            {
+                selectedMedicine.Quantity -= amountToUse;
+                _db.SaveChanges();
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\n=======================================================");
+                Console.WriteLine($" Успішно використано {amountToUse} шт. Залишок: {selectedMedicine.Quantity} шт.");
+                Console.WriteLine("=======================================================");
+                Console.ResetColor();
+                break; 
+            }
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Помилка: Введіть коректне ціле число.");
+            Console.ResetColor();
+        }
+    }
+
+    Console.WriteLine("\nНатисніть Enter для продовження...");
+    Console.ReadLine();
+}
 
     private void ViewMedicineCabinet()
     {
         Console.Clear();
-
-        // Завантажуємо всі ліки разом з їхніми категоріями
+        
         var medicines = _db.Medicines.Include(m => m.Category).ToList();
 
         if (!medicines.Any())
@@ -210,8 +321,7 @@ public sealed class Medkit
         var searchingInput = Console.ReadLine()?.Trim();
 
         if (searchingInput == "0" || string.IsNullOrEmpty(searchingInput)) return;
-
-        // Шукаємо збіги в назві ліків АБО в назві категорії
+        
         var foundMedicines = _db.Medicines.Include(m => m.Category)
             .Where(m => m.Name.ToLower().Contains(searchingInput.ToLower()) ||
                         m.Category.CategoryName.ToLower().Contains(searchingInput.ToLower()))
@@ -250,7 +360,6 @@ public sealed class Medkit
 
         foreach (var med in medicines)
         {
-            // Логіка для бонусного завдання (кольори)
             var isExpired = med.ExpirationDate.Date < today;
             var isExpiringSoon = (med.ExpirationDate.Date - today).TotalDays <= 30 && !isExpired;
 
@@ -274,4 +383,104 @@ public sealed class Medkit
         Console.WriteLine("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯\n");
         Console.ResetColor();
     }
+    
+    private void GenerateReports()
+{
+    while (true)
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("\n¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯");
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"{"ЗВІТИ ТА АНАЛІТИКА",42}");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯");
+        Console.ResetColor();
+
+        Console.WriteLine("1. Прострочені ліки");
+        Console.WriteLine("2. Ліки, термін яких закінчується (< 30 днів)");
+        Console.WriteLine("3. Ліки, що закінчилися (кількість 0)");
+        
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine("4. СПИСОК ПОКУПОК (Закінчились або прострочені)");
+        Console.ResetColor();
+        
+        Console.WriteLine("0. Повернутися до головного меню");
+
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯");
+        Console.ResetColor();
+        Console.Write("\nВаш вибір: ");
+
+        var input = Console.ReadLine()?.Trim();
+        var today = DateTime.Today;
+
+        switch (input)
+        {
+            case "1":
+                var expired = _db.Medicines.Include(m => m.Category)
+                    .Where(m => m.ExpirationDate.Date < today)
+                    .OrderBy(m => m.ExpirationDate)
+                    .ToList();
+                ShowReport("ПРОСТРОЧЕНІ ЛІКИ", expired);
+                break;
+
+            case "2":
+                var targetDate = today.AddDays(30);
+                var expiringSoon = _db.Medicines.Include(m => m.Category)
+                    .Where(m => m.ExpirationDate.Date >= today && m.ExpirationDate.Date <= targetDate)
+                    .OrderBy(m => m.ExpirationDate)
+                    .ToList();
+                ShowReport("ТЕРМІН ЗАКІНЧУЄТЬСЯ (< 30 ДНІВ)", expiringSoon);
+                break;
+
+            case "3":
+                var outOfStock = _db.Medicines.Include(m => m.Category)
+                    .Where(m => m.Quantity == 0)
+                    .OrderBy(m => m.Name)
+                    .ToList();
+                ShowReport("ЛІКИ, ЩО ЗАКІНЧИЛИСЯ (КІЛЬКІСТЬ = 0)", outOfStock);
+                break;
+
+            case "4":
+                var shoppingList = _db.Medicines.Include(m => m.Category)
+                    .Where(m => m.Quantity == 0 || m.ExpirationDate.Date < today)
+                    .OrderBy(m => m.Category.CategoryName).ThenBy(m => m.Name)
+                    .ToList();
+                ShowReport("СПИСОК ПОКУПОК (ЩО ТРЕБА КУПИТИ)", shoppingList);
+                break;
+
+            case "0":
+                return; 
+
+            default:
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nПомилка: Некоректний вибір.");
+                Console.ResetColor();
+                Console.WriteLine("Натисніть Enter для продовження...");
+                Console.ReadLine();
+                break;
+        }
+    }
+}
+    
+private void ShowReport(string title, List<Medicine> medicines)
+{
+    Console.Clear();
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine($"\n--- ЗВІТ: {title} ---");
+    Console.ResetColor();
+
+    if (!medicines.Any())
+    {
+        Console.WriteLine("\nУ цій категорії ліків не знайдено. Все чудово!");
+    }
+    else
+    {
+        PrintMedicinesTable(medicines);
+    }
+
+    Console.WriteLine("\nНатисніть Enter для повернення до меню звітів...");
+    Console.ReadLine();
+}
 }
