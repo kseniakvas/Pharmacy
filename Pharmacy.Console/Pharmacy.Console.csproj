@@ -19,4 +19,11 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.9" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="README.md" />
+      <Content Include="README.md">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>

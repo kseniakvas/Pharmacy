@@ -141,3 +141,4 @@ D:\Pharmacy\Pharmacy\Pharmacy.Console\obj\Release\net10.0\refint\Pharmacy.Consol
 D:\Pharmacy\Pharmacy\Pharmacy.Console\obj\Release\net10.0\Pharmacy.Console.pdb
 D:\Pharmacy\Pharmacy\Pharmacy.Console\obj\Release\net10.0\Pharmacy.Console.genruntimeconfig.cache
 D:\Pharmacy\Pharmacy\Pharmacy.Console\obj\Release\net10.0\ref\Pharmacy.Console.dll
+D:\Pharmacy\Pharmacy\Pharmacy.Console\bin\Release\net10.0\README.md
