@@ -140,3 +140,4 @@ D:\Pharmacy\Pharmacy\Pharmacy.Console\obj\Debug\net10.0\refint\Pharmacy.Console.
 D:\Pharmacy\Pharmacy\Pharmacy.Console\obj\Debug\net10.0\Pharmacy.Console.pdb
 D:\Pharmacy\Pharmacy\Pharmacy.Console\obj\Debug\net10.0\Pharmacy.Console.genruntimeconfig.cache
 D:\Pharmacy\Pharmacy\Pharmacy.Console\obj\Debug\net10.0\ref\Pharmacy.Console.dll
+D:\Pharmacy\Pharmacy\Pharmacy.Console\obj\Debug\net10.0\Pharmacy.Console.sourcelink.json

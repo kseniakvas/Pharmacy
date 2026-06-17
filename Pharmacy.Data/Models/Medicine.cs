@@ -3,12 +3,12 @@
 public class Medicine
 {
     public int Id { get; set; }
-    public string name { get; set; }
-    public MedicineType type { get; set; }
-    public int quantity { get; set; }
-    public int categoryId { get; set; }
-    public DateTime expirationDate { get; set; }
-    public Category category { get; set; }
+    public string Name { get; set; }
+    public MedicineType Type { get; set; }
+    public int Quantity { get; set; }
+    public int CategoryId { get; set; }
+    public DateTime ExpirationDate { get; set; }
+    public Category Category { get; set; }
     
     public Medicine() {}
 }

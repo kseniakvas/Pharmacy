@@ -5,11 +5,11 @@ namespace Pharmacy.Data;
 
 public class AppDbContext : DbContext
 {
-    public DbSet<Category>  Contacts { get; set; }
-    public DbSet<Medicine> ContactGroups { get; set; }
+    public DbSet<Category>  Categories { get; set; }
+    public DbSet<Medicine> Medicines { get; set; }
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=contacts.db");
+        optionsBuilder.UseSqlite("Data Source=medicine.db");
     }
 }
